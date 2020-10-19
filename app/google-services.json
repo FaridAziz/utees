@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "59741122993",
+    "firebase_url": "https://utees-36cc2.firebaseio.com",
+    "project_id": "utees-36cc2",
+    "storage_bucket": "utees-36cc2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59741122993:android:5f1ce0e7548739c8120d90",
+        "android_client_info": {
+          "package_name": "org.kuliah.utees"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "59741122993-1ma8ga31t0gl8bdnnaqq9fhfua3imt9t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI4NqnvilLG5GPPkAttVBkPS84phdjp1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "59741122993-1ma8ga31t0gl8bdnnaqq9fhfua3imt9t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
