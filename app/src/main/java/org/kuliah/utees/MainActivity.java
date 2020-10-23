@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "data";
     private EditText tnama, temail, ttelepon;
     private ProgressDialog loading;
-    private Button btn_cancel, btn_save;
+    private Button btn_delete, btn_save;
 
     private String sPid, sPnama, sPemail, sPdesk;
 
