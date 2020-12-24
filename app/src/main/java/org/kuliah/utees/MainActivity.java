@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_list:
-                Toast.makeText(this, "List Page Selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Daftar Kontak Page Selected", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, List.class);
                 startActivity(intent);
                 return true;
