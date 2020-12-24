@@ -112,7 +112,7 @@ public class List extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_tambah:
-                Toast.makeText(this, "List Page Selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Tambah Page Selected", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(List.this, MainActivity.class);
                 startActivity(intent);
                 return true;

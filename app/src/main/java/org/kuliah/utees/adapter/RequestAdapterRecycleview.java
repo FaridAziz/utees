@@ -20,6 +20,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import org.kuliah.utees.DetailActivity;
+import org.kuliah.utees.InfoActivity;
 import org.kuliah.utees.R;
 import org.kuliah.utees.model.Request;
 
@@ -32,7 +33,7 @@ public class RequestAdapterRecycleview extends RecyclerView.Adapter<RequestAdapt
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef = db.getReference("Request");
     private Activity mActivity;
-    Button delete;
+    Button detail;
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public LinearLayout rl_layout;
@@ -46,10 +47,11 @@ public class RequestAdapterRecycleview extends RecyclerView.Adapter<RequestAdapt
             item_email = itemView.findViewById(R.id.item_email);
             item_telepon = itemView.findViewById(R.id.item_telepon);
             item_foto = itemView.findViewById(R.id.item_foto);
+            detail = itemView.findViewById(R.id.detail);
 
             mDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
-            delete = itemView.findViewById(R.id.detail);
+
 
 //            delete.setOnClickListener(new View.OnClickListener() {
 //                @Override
@@ -84,6 +86,18 @@ public class RequestAdapterRecycleview extends RecyclerView.Adapter<RequestAdapt
         holder.item_email.setText(movie.getEmail());
         holder.item_telepon.setText(movie.getTelepon());
         Picasso.get().load(movie.getImageUrl()).into(holder.item_foto);
+
+        detail.setOnClickListener((view) -> {
+            Intent goDetail = new Intent(detail.getContext(), InfoActivity.class);
+
+            goDetail.putExtra("id", movie.getKey());
+            goDetail.putExtra("nama", movie.getNama());
+            goDetail.putExtra("email", movie.getEmail());
+            goDetail.putExtra("telepon", movie.getTelepon());
+            goDetail.putExtra("imageUrl", movie.getImageUrl());
+
+            detail.getContext().startActivity(goDetail);
+        });
 
 
         holder.rl_layout.setOnClickListener((view) -> {
