@@ -3,15 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/nav_list"
+        app:showAsAction="never"
+        android:title="Daftar Kontak"
+        />
+
+    <item
         android:id="@+id/nav_tambah"
         app:showAsAction="never"
         android:title="Tambah"
         />
 
-    <item
-        android:id="@+id/nav_list"
-        app:showAsAction="never"
-        android:title="List"
-        />
+
 
 </menu>

@@ -5,8 +5,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -14,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,14 +28,14 @@ import org.kuliah.utees.model.Request;
 
 import static io.perfmark.PerfMark.setEnabled;
 
-public class MainActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private static final String TAG = "data";
     private EditText tnama, temail, ttelepon;
     private ProgressDialog loading;
-    private Button btn_delete, btn_save, btnFoto;
+    private Button btn_delete, btn_save, btnFoto, hapus;
     private ImageView imageView;
 
     private Uri mImageUri;
@@ -48,33 +45,35 @@ public class MainActivity extends AppCompatActivity {
 
     private StorageTask mUploadTask;
 
-//    private String sPid, sPnama, sPemail, sPtelepon, sPimg;
+    private String sPid, sPnama, sPemail, sPtelepon, sPimg;
 
     private long lastClickTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_detail);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
-//        sPid = getIntent().getStringExtra("id");
-//        sPnama = getIntent().getStringExtra("nama");
-//        sPemail = getIntent().getStringExtra("email");
-//        sPtelepon = getIntent().getStringExtra("telepon");
-//        sPimg = getIntent().getStringExtra("imageUrl");
+        sPid = getIntent().getStringExtra("id");
+        sPnama = getIntent().getStringExtra("nama");
+        sPemail = getIntent().getStringExtra("email");
+        sPtelepon = getIntent().getStringExtra("telepon");
+        sPimg = getIntent().getStringExtra("imageUrl");
 
         tnama = findViewById(R.id.nama);
         temail = findViewById(R.id.email);
         ttelepon = findViewById(R.id.telepon);
         imageView = findViewById(R.id.gmb);
         btnFoto = (Button)findViewById(R.id.btnFoto);
+        hapus = (Button)findViewById(R.id.hapus);
 
-//        tnama.setText(sPnama);
-//        temail.setText(sPemail);
-//        ttelepon.setText(sPtelepon);
+        tnama.setText(sPnama);
+        temail.setText(sPemail);
+        ttelepon.setText(sPtelepon);
+        Picasso.get().load(sPimg).into(imageView);
 
         btnFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,17 +115,17 @@ public class MainActivity extends AppCompatActivity {
                                                         ttelepon.setError("Silahkan masukan telepon");
                                                         ttelepon.requestFocus();
                                                     } else {
-                                                        loading = ProgressDialog.show(MainActivity.this,
+                                                        loading = ProgressDialog.show(DetailActivity.this,
                                                                 null,
                                                                 "Please Wait",
                                                                 true,
                                                                 false);
 
-                                                        MainActivity.this.submitUser(new Request(
+                                                        DetailActivity.this.editUser(new Request(
                                                                 snama.toLowerCase(),
                                                                 semail.toLowerCase(),
                                                                 stelepon.toLowerCase(),
-                                                                imageUrl.toLowerCase()));
+                                                                imageUrl.toLowerCase()), sPid);
                                                     }
                                                 }
                                             });
@@ -139,11 +138,22 @@ public class MainActivity extends AppCompatActivity {
                 setEnabled(false);
             }
         });
+
+        hapus.setOnClickListener((view) -> {
+            mDatabaseRef.child("Request")
+                    .child(sPid)
+                    .removeValue();
+
+            Toast.makeText(DetailActivity.this,
+                    "Data berhasil dihapus",
+                    Toast.LENGTH_SHORT).show();
+            finish();
+        });
     }
 
-    private void submitUser(Request request) {
+    private void editUser(Request request, String id) {
         mDatabaseRef.child("Request")
-                .push()
+                .child(id)
                 .setValue(request)
                 .addOnSuccessListener(this, new OnSuccessListener() {
                     @Override
@@ -155,53 +165,13 @@ public class MainActivity extends AppCompatActivity {
                         ttelepon.setText("");
                         imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_add_a_photo_24));
 
-                        Toast.makeText(MainActivity.this,
-                                "Data berhasil ditambahkan",
+                        Toast.makeText(DetailActivity.this,
+                                "Data berhasil diubah",
                                 Toast.LENGTH_SHORT).show();
                         finish();
-
                     }
                 });
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.nav_list:
-                Toast.makeText(this, "List Page Selected", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, List.class);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-//    public void onBackPressed(){
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-//        alertDialogBuilder.setTitle("Confirm Exit..!");
-//        alertDialogBuilder.setIcon(R.drawable.ic_baseline_exit_to_app_24);
-//        alertDialogBuilder.setMessage("Beneran mau keluar??");
-//        alertDialogBuilder.setCancelable(false);
-//
-//        alertDialogBuilder.setPositiveButton("Yes" , (dialog, which) -> {
-//                finish();
-//        });
-//
-//        alertDialogBuilder.setNegativeButton("No" , (dialog, which) -> {
-//            Toast.makeText(MainActivity.this, " gajadi keluar", Toast.LENGTH_LONG).show();
-//        });
-//
-//        AlertDialog alertDialog = alertDialogBuilder.create();
-//        alertDialog.show();
-//    }
 
     private void openFileChooser() {
         Intent intent = new Intent();
@@ -226,5 +196,4 @@ public class MainActivity extends AppCompatActivity {
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
-
 }

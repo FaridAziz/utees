@@ -1,22 +1,22 @@
 package org.kuliah.utees;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +37,6 @@ public class List extends AppCompatActivity {
 
     private RecyclerView rc_list_request;
     private ProgressDialog loading;
-    private FloatingActionButton fab_add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +82,24 @@ public class List extends AppCompatActivity {
                 loading.dismiss();
             }
         });
+
+        EditText editText = findViewById(R.id.search_bar);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
     }
 
     @Override
@@ -104,22 +121,33 @@ public class List extends AppCompatActivity {
         }
     }
 
-//    public void onBackPressed(){
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-//        alertDialogBuilder.setTitle("Confirm Exit..!");
-//        alertDialogBuilder.setIcon(R.drawable.ic_baseline_exit_to_app_24);
-//        alertDialogBuilder.setMessage("Beneran mau keluar??");
-//        alertDialogBuilder.setCancelable(false);
-//
-//        alertDialogBuilder.setPositiveButton("Yes" , (dialog, which) -> {
-//            finish();
-//        });
-//
-//        alertDialogBuilder.setNegativeButton("No" , (dialog, which) -> {
-//            Toast.makeText(List.this, " gajadi keluar", Toast.LENGTH_LONG).show();
-//        });
-//
-//        AlertDialog alertDialog = alertDialogBuilder.create();
-//        alertDialog.show();
-//    }
+    private void filter(String text){
+        ArrayList<Request> filteredList = new ArrayList<>();
+
+        for (Request req : daftarReq){
+            if (req.getNama().toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(req);
+            }
+        }
+        requestAdapterRecycleview.filterList(filteredList);
+    }
+
+    public void onBackPressed(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Confirm Exit..!");
+        alertDialogBuilder.setIcon(R.drawable.ic_baseline_exit_to_app_24);
+        alertDialogBuilder.setMessage("Beneran mau keluar??");
+        alertDialogBuilder.setCancelable(false);
+
+        alertDialogBuilder.setPositiveButton("Yes" , (dialog, which) -> {
+            finish();
+        });
+
+        alertDialogBuilder.setNegativeButton("No" , (dialog, which) -> {
+            Toast.makeText(List.this, " gajadi keluar", Toast.LENGTH_LONG).show();
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
 }

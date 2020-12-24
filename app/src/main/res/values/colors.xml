@@ -3,4 +3,5 @@
     <color name="colorPrimary">#EE0000</color>
     <color name="colorPrimaryDark">#B30000</color>
     <color name="colorAccent">#2774FA</color>
+    <color name="uploadFoto">#ffffff</color>
 </resources>

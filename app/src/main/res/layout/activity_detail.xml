@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_main">
+    android:id="@+id/activity_edit">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            android:text="Tambahkan Kotak"
+            android:text="Edit Data Kotak"
             android:textSize="23dp"/>
 
         <EditText
@@ -67,7 +67,6 @@
 
                 <ImageView
                     android:id="@+id/gmb"
-                    android:src="@drawable/ic_baseline_add_a_photo_24"
                     android:layout_gravity="center"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
@@ -97,12 +96,23 @@
             android:background="@drawable/rounded_corners"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
 
-<!--        <ImageView-->
-<!--            android:layout_width="250dp"-->
-<!--            android:layout_height="250dp"-->
-<!--            android:src="@drawable/data"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_marginTop="50dp"/>-->
+        <Button
+            android:id="@+id/hapus"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            android:text="     Hapus     "
+            android:textSize="20dp"
+            android:background="@drawable/rounded_corners_red"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+
+        <!--        <ImageView-->
+        <!--            android:layout_width="250dp"-->
+        <!--            android:layout_height="250dp"-->
+        <!--            android:src="@drawable/data"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:layout_marginTop="50dp"/>-->
 
     </LinearLayout>
 
