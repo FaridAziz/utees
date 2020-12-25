@@ -88,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 setEnabled(false);
                 if (mImageUri != null) {
+                    loading = ProgressDialog.show(MainActivity.this,
+                            null,
+                            "Please Wait",
+                            true,
+                            false);
                     StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                             + "." + getFileExtension(mImageUri));
                     mUploadTask = fileReference.putFile(mImageUri)
@@ -116,11 +121,7 @@ public class MainActivity extends AppCompatActivity {
                                                         ttelepon.setError("Silahkan masukan telepon");
                                                         ttelepon.requestFocus();
                                                     } else {
-                                                        loading = ProgressDialog.show(MainActivity.this,
-                                                                null,
-                                                                "Please Wait",
-                                                                true,
-                                                                false);
+
 
                                                         MainActivity.this.submitUser(new Request(
                                                                 snama.toLowerCase(),

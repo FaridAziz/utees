@@ -1,6 +1,10 @@
 package org.kuliah.utees;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +17,7 @@ public class InfoActivity extends AppCompatActivity {
     private TextView tnama, temail, ttelepon;
     private String sPid, sPnama, sPemail, sPtelepon, sPimg;
     private ImageView imageView;
+    Button btn_telpon, btn_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,5 +39,18 @@ public class InfoActivity extends AppCompatActivity {
         temail.setText(sPemail);
         ttelepon.setText(sPtelepon);
         Picasso.get().load(sPimg).into(imageView);
+
+        btn_telpon = (Button)findViewById(R.id.telepon_act);
+
+        btn_telpon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"+sPtelepon));
+                startActivity(intent);
+
+            }
+        });
     }
 }
