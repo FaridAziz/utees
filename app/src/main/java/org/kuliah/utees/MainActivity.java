@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private static final String TAG = "data";
-    private EditText tnama, temail, ttelepon;
+    private EditText tnama, temail, ttelepon, tig;
     private ProgressDialog loading;
     private Button btn_delete, btn_save, btnFoto;
     private ImageView imageView;
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         tnama = findViewById(R.id.nama);
         temail = findViewById(R.id.email);
         ttelepon = findViewById(R.id.telepon);
+        tig = findViewById(R.id.ig);
         imageView = findViewById(R.id.gmb);
         btnFoto = (Button)findViewById(R.id.btnFoto);
 
@@ -87,7 +88,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setEnabled(false);
-                if (mImageUri != null) {
+                String snama = tnama.getText().toString();
+                String semail = temail.getText().toString();
+                String stelepon = ttelepon.getText().toString();
+                String sig = tig.getText().toString();
+
+                if (snama.equals("")) {
+                    tnama.setError("Silahkan masukan nama");
+                    tnama.requestFocus();
+                } else if (semail.equals("")) {
+                    temail.setError("Silahkan masukan email");
+                    temail.requestFocus();
+                } else if (ttelepon.equals("")) {
+                    ttelepon.setError("Silahkan masukan telepon");
+                    ttelepon.requestFocus();
+                } else if (mImageUri != null){
                     loading = ProgressDialog.show(MainActivity.this,
                             null,
                             "Please Wait",
@@ -107,28 +122,13 @@ public class MainActivity extends AppCompatActivity {
                                                 public void onSuccess(Uri uri) {
                                                     String imageUrl = uri.toString();
                                                     //createNewPost(imageUrl);
-                                                    String snama = tnama.getText().toString();
-                                                    String semail = temail.getText().toString();
-                                                    String stelepon = ttelepon.getText().toString();
-
-                                                    if (snama.equals("")) {
-                                                        tnama.setError("Silahkan masukan nama");
-                                                        tnama.requestFocus();
-                                                    } else if (semail.equals("")) {
-                                                        temail.setError("Silahkan masukan email");
-                                                        temail.requestFocus();
-                                                    } else if (ttelepon.equals("")) {
-                                                        ttelepon.setError("Silahkan masukan telepon");
-                                                        ttelepon.requestFocus();
-                                                    } else {
-
 
                                                         MainActivity.this.submitUser(new Request(
                                                                 snama.toLowerCase(),
                                                                 semail.toLowerCase(),
                                                                 stelepon.toLowerCase(),
+                                                                sig.toLowerCase(),
                                                                 imageUrl.toLowerCase()));
-                                                    }
                                                 }
                                             });
                                         }
@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                         tnama.setText("");
                         temail.setText("");
                         ttelepon.setText("");
+                        tig.setText("");
                         imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_add_a_photo_24));
 
                         Toast.makeText(MainActivity.this,

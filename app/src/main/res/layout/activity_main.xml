@@ -50,6 +50,15 @@
             android:hint="Telepon"
             android:inputType="number"/>
 
+        <EditText
+            android:id="@+id/ig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="Instagram"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

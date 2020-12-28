@@ -33,9 +33,10 @@ public class RequestAdapterRecycleview extends RecyclerView.Adapter<RequestAdapt
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef = db.getReference("Request");
     private Activity mActivity;
-    Button detail;
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
+        private Button detail;
         public LinearLayout rl_layout;
         public TextView item_nama, item_email, item_telepon;
         public ImageView item_foto;
@@ -87,16 +88,17 @@ public class RequestAdapterRecycleview extends RecyclerView.Adapter<RequestAdapt
         holder.item_telepon.setText(movie.getTelepon());
         Picasso.get().load(movie.getImageUrl()).into(holder.item_foto);
 
-        detail.setOnClickListener((view) -> {
-            Intent goDetail = new Intent(detail.getContext(), InfoActivity.class);
+        holder.detail.setOnClickListener((view) -> {
+            Intent goDetail = new Intent(holder.detail.getContext(), InfoActivity.class);
 
             goDetail.putExtra("id", movie.getKey());
             goDetail.putExtra("nama", movie.getNama());
             goDetail.putExtra("email", movie.getEmail());
             goDetail.putExtra("telepon", movie.getTelepon());
+            goDetail.putExtra("ig", movie.getIg());
             goDetail.putExtra("imageUrl", movie.getImageUrl());
 
-            detail.getContext().startActivity(goDetail);
+            holder.detail.getContext().startActivity(goDetail);
         });
 
 
@@ -107,6 +109,7 @@ public class RequestAdapterRecycleview extends RecyclerView.Adapter<RequestAdapt
             goDetail.putExtra("nama", movie.getNama());
             goDetail.putExtra("email", movie.getEmail());
             goDetail.putExtra("telepon", movie.getTelepon());
+            goDetail.putExtra("ig", movie.getIg());
             goDetail.putExtra("imageUrl", movie.getImageUrl());
 
             holder.rl_layout.getContext().startActivity(goDetail);

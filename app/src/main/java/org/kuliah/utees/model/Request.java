@@ -7,6 +7,7 @@ public class Request implements Serializable {
     private String nama;
     private String email;
     private String telepon;
+    private String ig;
     private String mImageUrl;
 
     private String key;
@@ -15,10 +16,11 @@ public class Request implements Serializable {
 
     }
 
-    public Request(String nama, String email, String telepon, String imageUrl){
+    public Request(String nama, String email, String telepon, String ig, String imageUrl){
         this.nama = nama;
         this.email = email;
         this.telepon = telepon;
+        this.ig = ig;
         this.mImageUrl = imageUrl;
     }
 
@@ -46,6 +48,14 @@ public class Request implements Serializable {
         this.telepon = telepon;
     }
 
+    public String getIg() {
+        return ig;
+    }
+
+    public void setIg(String ig) {
+        this.ig = ig;
+    }
+
     public String getImageUrl() {
         return mImageUrl;
     }
@@ -65,6 +75,7 @@ public class Request implements Serializable {
         return " "+nama+"\n" +
                 " "+email+"\n" +
                 " "+telepon+"\n" +
+                " "+ig+"\n" +
                 " "+mImageUrl;
     }
 }

@@ -33,7 +33,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private static final String TAG = "data";
-    private EditText tnama, temail, ttelepon;
+    private EditText tnama, temail, ttelepon, tig;
     private ProgressDialog loading;
     private Button btn_delete, btn_save, btnFoto, hapus;
     private ImageView imageView;
@@ -45,7 +45,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private StorageTask mUploadTask;
 
-    private String sPid, sPnama, sPemail, sPtelepon, sPimg;
+    private String sPid, sPnama, sPemail, sPtelepon, sPig, sPimg;
 
     private long lastClickTime = 0;
 
@@ -61,11 +61,13 @@ public class DetailActivity extends AppCompatActivity {
         sPnama = getIntent().getStringExtra("nama");
         sPemail = getIntent().getStringExtra("email");
         sPtelepon = getIntent().getStringExtra("telepon");
+        sPig = getIntent().getStringExtra("ig");
         sPimg = getIntent().getStringExtra("imageUrl");
 
         tnama = findViewById(R.id.nama);
         temail = findViewById(R.id.email);
         ttelepon = findViewById(R.id.telepon);
+        tig = findViewById(R.id.ig);
         imageView = findViewById(R.id.gmb);
         btnFoto = (Button)findViewById(R.id.btnFoto);
         hapus = (Button)findViewById(R.id.hapus);
@@ -73,6 +75,7 @@ public class DetailActivity extends AppCompatActivity {
         tnama.setText(sPnama);
         temail.setText(sPemail);
         ttelepon.setText(sPtelepon);
+        tig.setText(sPig);
         Picasso.get().load(sPimg).into(imageView);
 
         btnFoto.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +89,21 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setEnabled(false);
-                if (mImageUri != null) {
+                String snama = tnama.getText().toString();
+                String semail = temail.getText().toString();
+                String stelepon = ttelepon.getText().toString();
+                String sig = tig.getText().toString();
+
+                if (snama.equals("")) {
+                    tnama.setError("Silahkan masukan nama");
+                    tnama.requestFocus();
+                } else if (semail.equals("")) {
+                    temail.setError("Silahkan masukan email");
+                    temail.requestFocus();
+                } else if (ttelepon.equals("")) {
+                    ttelepon.setError("Silahkan masukan telepon");
+                    ttelepon.requestFocus();
+                } else if (mImageUri != null){
                     loading = ProgressDialog.show(DetailActivity.this,
                             null,
                             "Please Wait",
@@ -106,28 +123,13 @@ public class DetailActivity extends AppCompatActivity {
                                                 public void onSuccess(Uri uri) {
                                                     String imageUrl = uri.toString();
                                                     //createNewPost(imageUrl);
-                                                    String snama = tnama.getText().toString();
-                                                    String semail = temail.getText().toString();
-                                                    String stelepon = ttelepon.getText().toString();
 
-                                                    if (snama.equals("")) {
-                                                        tnama.setError("Silahkan masukan nama");
-                                                        tnama.requestFocus();
-                                                    } else if (semail.equals("")) {
-                                                        temail.setError("Silahkan masukan email");
-                                                        temail.requestFocus();
-                                                    } else if (ttelepon.equals("")) {
-                                                        ttelepon.setError("Silahkan masukan telepon");
-                                                        ttelepon.requestFocus();
-                                                    } else {
-
-
-                                                        DetailActivity.this.editUser(new Request(
-                                                                snama.toLowerCase(),
-                                                                semail.toLowerCase(),
-                                                                stelepon.toLowerCase(),
-                                                                imageUrl.toLowerCase()), sPid);
-                                                    }
+                                                    DetailActivity.this.editUser(new Request(
+                                                            snama.toLowerCase(),
+                                                            semail.toLowerCase(),
+                                                            stelepon.toLowerCase(),
+                                                            sig.toLowerCase(),
+                                                            imageUrl.toLowerCase()),sPid);
                                                 }
                                             });
                                         }
